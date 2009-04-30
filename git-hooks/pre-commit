@@ -1,24 +1,37 @@
 #!/usr/bin/python
 
-import sys, os, fnmatch
+import os, fnmatch
 
-from mako.template import Template
+from StringIO import StringIO
+
 from mako.lookup import TemplateLookup
 from mako.runtime import Context
+
+from docutils import core
+from docutils.writers.html4css1 import Writer
 
 template_dir = 'templates/'
 public_dir = 'public/'
 
 lookup = TemplateLookup(directories=[template_dir], module_directory='/tmp/mako_modules')
 
+def rstify(string):
+    w=Writer()
+    result = core.publish_parts(string, writer=w)['html_body']
+    #Strip the first and last lines
+    result = '\n'.join(result.split('\n')[1:-2])
+    return result
 
 def render(file):
     ofile = public_dir + file.replace('mako','html')
-    buf = open(ofile,"w")
+    buf = StringIO()
     ctx = Context(buf)
     lookup.get_template(file).render_context(ctx)
-    buf.close()
     #TODO: calling system is not good. look up better ways
+    outp = open(ofile,"w")
+    outp.write(rstify(buf.getvalue()))
+    buf.close()
+    outp.close()
     os.system("git add " + ofile)
 
 def main():
