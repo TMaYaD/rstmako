@@ -1,7 +1,6 @@
 #!/usr/bin/python
 
-import sys
-from glob import glob
+import sys, os, fnmatch
 
 from mako.template import Template
 from mako.lookup import TemplateLookup
@@ -10,15 +9,20 @@ from mako.runtime import Context
 template_dir = 'templates/'
 public_dir = 'public/'
 
-lookup = TemplateLookup(directories=[''], module_directory='/tmp/mako_modules')
+lookup = TemplateLookup(directories=[template_dir], module_directory='/tmp/mako_modules')
+
+
+def render(file):
+    ofile = public_dir + file.replace('mako','html')
+    buf = open(ofile,"w")
+    ctx = Context(buf)
+    lookup.get_template(file).render_context(ctx)
+    buf.close()
 
 def main():
-    templates = glob(template_dir + "*.mako")
-    for template in templates:
-    	ofile = template.replace(template_dir,public_dir,1).replace('mako','html')
-	buf = open(ofile,"w")
-	ctx = Context(buf)
-        print Template(filename=template, lookup=lookup).render_context(ctx)
+    for file in os.listdir(template_dir):
+        if fnmatch.fnmatch(file, '*.mako'):
+	    render(file)
 
 if __name__ == "__main__":
     main()
