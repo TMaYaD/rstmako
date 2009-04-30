@@ -1,2 +1,2 @@
 example mako template
-this is a disaster
+I expect tags around this whole thing
