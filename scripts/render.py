@@ -1,5 +1,7 @@
 #!/usr/bin/python
 
+import sys
+
 from mako.template import Template
 from mako.lookup import TemplateLookup
 
@@ -10,5 +12,6 @@ def serve_template(templatename, **kwargs):
     print mytemplate.render(**kwargs)
 
 #here we read all the makos and render them
-print 'script is being run'
+for arg in sys.argv:
+    serve_template(arg)
 
