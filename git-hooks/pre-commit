@@ -2,3 +2,4 @@
 
 #python scripts/render.py
 echo test rendering >public/hello
+git add public
