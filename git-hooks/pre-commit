@@ -6,6 +6,6 @@ PUBLIC_DIR=public
 for template in `git diff-index --name-only HEAD --relative=${TEMPLATE_DIR}`
 do
 	ofile=${PUBLIC_DIR}${template/%mako/html}
-	python scripts/render.py ${template} > ${ofile}
+	python scripts/render.py ${template} > ${ofile} || return fail
 	git add ${ofile}
 done
