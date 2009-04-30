@@ -5,7 +5,10 @@ import sys ,os
 from mako.template import Template
 from mako.lookup import TemplateLookup
 
-lookup = TemplateLookup(directories=['templates'], module_directory='/tmp/mako_modules')
+template_dir = 'templates/'
+public_dir = 'public/'
+
+lookup = TemplateLookup(directories=[template_dir], module_directory='/tmp/mako_modules')
 
 def main(argv):
     for arg in argv:
