@@ -1,5 +1,12 @@
 #!/bin/bash
 
-#python scripts/render.py
-echo test rendering >public/hello
-git add public
+TEMPLATE_DIR=templates
+PUBLIC_DIR=public
+
+for template in `git diff-index --name-only HEAD --relative=${TEMPLATE_DIR}`
+do
+	ifile=${TEMPLATE_DIR}${template}
+	ofile=${PUBLIC_DIR}${template/%mako/html}
+	python scripts/render.py ${ifile} > ${ofile}
+	git add ${ofile}
+done
