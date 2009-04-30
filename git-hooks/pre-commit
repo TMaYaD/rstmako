@@ -1,11 +1,11 @@
 #!/bin/bash
 
-TEMPLATE_DIR=templates
-PUBLIC_DIR=public
+TEMPLATE_DIR='templates/'
+PUBLIC_DIR='public'
 
 for template in `git diff-index --name-only HEAD --relative=${TEMPLATE_DIR}`
 do
-	ofile=${PUBLIC_DIR}${template/%mako/html}
-	python scripts/render.py ${template} > ${ofile} || return fail
+	ofile=${PUBLIC_DIR}/${template/%mako/html}
+	python scripts/render.py ${template} > ${ofile} || exit -1
 	git add ${ofile}
 done

@@ -1,17 +1,16 @@
 #!/usr/bin/python
 
-import sys
+import sys ,os
 
 from mako.template import Template
 from mako.lookup import TemplateLookup
 
-mylookup = TemplateLookup(directories=['../templates'], module_directory='/tmp/mako_modules')
+lookup = TemplateLookup(directories=['templates'], module_directory='/tmp/mako_modules')
 
-def serve_template(templatename, **kwargs):
-    mytemplate = mylookup.get_template(templatename)
-    print mytemplate.render(**kwargs)
+def main(argv):
+    for arg in argv:
+        print lookup.get_template(arg).render()
 
-#here we read all the makos and render them
-for arg in sys.argv:
-    serve_template(arg)
-
+print os.getcwd()
+if __name__ == "__main__":
+    main(sys.argv[1:])
