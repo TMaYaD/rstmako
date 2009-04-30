@@ -8,7 +8,10 @@ from mako.lookup import TemplateLookup
 template_dir = 'templates/'
 public_dir = 'public/'
 
-lookup = TemplateLookup(directories=[template_dir], module_directory='/tmp/mako_modules')
+def rst2html(rst):
+    return "<rst>" + rst + "</rst>"
+
+lookup = TemplateLookup(directories=[template_dir], default_filters=['rst2html'])
 
 def main(argv):
     for arg in argv:
