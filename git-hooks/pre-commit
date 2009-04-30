@@ -10,5 +10,4 @@ def serve_template(templatename, **kwargs):
     print mytemplate.render(**kwargs)
 
 #here we read all the makos and render them
-print 'script is being run'
 
